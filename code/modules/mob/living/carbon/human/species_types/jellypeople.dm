@@ -16,6 +16,7 @@
 	damage_overlay_type = ""
 	var/datum/action/innate/regenerate_limbs/regenerate_limbs
 	var/datum/action/innate/slime_change/slime_change //SKYRAT EDIT ADDITION - CUSTOMIZATION
+	var/datum/action/innate/slime_puddle/slime_puddle //SKYRAT EDIT ADDITON - PUDDLEFORM
 	liked_food = MEAT
 	toxic_food = NONE
 	coldmod = 6   // = 3x cold damage
@@ -33,6 +34,8 @@
 	//SKYRAT EDIT ADDITION BEGIN - CUSTOMIZATION
 	if(slime_change)
 		slime_change.Remove(C)
+	if(slime_puddle)
+		slime_puddle.Remove(C)
 	//SKYRAT EDIT ADDITION END
 	..()
 
@@ -44,6 +47,8 @@
 		//SKYRAT EDIT ADDITION BEGIN - CUSTOMIZATION
 		slime_change = new
 		slime_change.Grant(C)
+		slime_puddle = new
+		slime_puddle.Grant(C)
 		//SKYRAT EDIT ADDITION END
 
 /datum/species/jelly/spec_life(mob/living/carbon/human/H, delta_time, times_fired)

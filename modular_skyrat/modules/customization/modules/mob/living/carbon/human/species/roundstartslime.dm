@@ -230,3 +230,42 @@
 						DNA.update_body_size()
 			H.mutant_renderkey = "" //Just in case
 			H.update_mutant_bodyparts()
+
+//Code for the Citadel-Slime form. This is mostly copied over.
+
+/datum/action/innate/slime_puddle
+	name = "Puddle Transformation"
+	check_flags = AB_CHECK_CONSCIOUS
+	button_icon_state = "slimepuddle"
+	icon_icon = 'modular_skyrat/master_files/icons/mob/actions/actions_slime.dmi'
+	background_icon_state = "bg_alien"
+	var/is_puddle = FALSE
+	var/in_transformation_duration = 12
+	var/out_transformation_duration = 7
+	var/puddle_into_effect = /obj/effect/temp_visual/slime_puddle
+	var/puddle_from_effect = /obj/effect/temp_visual/slime_puddle/reverse
+	var/puddle_icon = 'modular_skyrat/master_files/icons/mob/species/slime_puddle.dmi'
+	var/puddle_state = "puddle"
+	var/mutable_appearance/tracked_overlay
+	var/slime_restricted = TRUE
+	var/transforming = FALSE
+
+/datum/action/innate/slime_puddle/admin
+	slime_restricted = FALSE
+
+/datum/action/innate/slime_puddle/Activate()
+	var/mob/living/carbon/human/H = owner
+	//if they have anything stuck to their hands, we immediately say 'no' and return
+	for(var/obj/item/I in H.held_items)
+		if(HAS_TRAIT(I, TRAIT_NODROP))
+			to_chat(owner, span_notice("There is something stuck to your hand, you cannot transform"))
+			return
+	if(IsAvailable())
+		if(is_puddle == FALSE)
+			transforming = TRUE
+			to_chat(owner, span_notice("you have been transformed"))
+			is_puddle = TRUE
+		else
+			to_chat(owner, span_notice("you are whole again"))
+			transforming = TRUE
+			is_puddle = FALSE
