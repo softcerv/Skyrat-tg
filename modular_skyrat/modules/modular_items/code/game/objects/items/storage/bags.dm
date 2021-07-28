@@ -40,3 +40,21 @@
 	slot_flags = ITEM_SLOT_BELT //QoL by Gandalf
 	worn_icon_state = "trashbag"
 	worn_icon = 'modular_skyrat/master_files/icons/mob/clothing/belt.dmi'
+
+//Maint Refurbishment Kit//
+/obj/item/storage/backpack/duffelbag/refurb_kit
+	name = "maintenance refurbishment kit"
+	desc = "A kit that contains the basic materials and tools to refurbish derelict rooms"
+	icon_state = "duffel-eng"
+	inhand_icon_state = "duffel-eng"
+
+/obj/item/storage/backpack/duffelbag/refurb_kit/PopulateContents()
+	new /obj/item/storage/belt/utility/full(src)
+	new /obj/item/lightreplacer(src)
+	new /obj/item/toy/crayon/spraycan(src)
+	new /obj/item/mop(src)
+	new /obj/item/reagent_containers/glass/bucket(src)
+	new /obj/item/stack/sheet/glass/fifty(src)
+	new /obj/item/stack/sheet/iron/fifty(src)
+	new /obj/item/storage/box/stockparts/basic(src)
+	new /obj/item/clothing/glasses/meson/engine(src)
