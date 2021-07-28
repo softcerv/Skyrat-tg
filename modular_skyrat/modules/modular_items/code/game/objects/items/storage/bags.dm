@@ -56,5 +56,7 @@
 	new /obj/item/reagent_containers/glass/bucket(src)
 	new /obj/item/stack/sheet/glass/fifty(src)
 	new /obj/item/stack/sheet/iron/fifty(src)
+	new /obj/item/stack/sheet/mineral/wood/fifty(src)
+	new /obj/item/stack/tile/carpet/fifty(src)
 	new /obj/item/storage/box/stockparts/basic(src)
 	new /obj/item/clothing/glasses/meson/engine(src)
