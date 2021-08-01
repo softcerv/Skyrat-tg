@@ -176,3 +176,28 @@
 	target.radiation = max(target.radiation - 60, 0)
 
 //End of Basic Tiers of cells.//
+//Special Cells//
+
+//Roller Bed//
+/obj/item/ammo_casing/energy/medical/bed
+	projectile_type = /obj/projectile/energy/medical/bed
+	select_name = "Hard Light Bed"
+	fire_sound = 'sound/effects/stealthoff.ogg'
+	e_cost = 240
+	harmful = FALSE
+
+/obj/projectile/energy/medical/bed
+	name = "Bed field"
+	icon_state = "blue_laser"
+	damage = 0
+
+/obj/projectile/energy/medical/bed/on_hit(mob/living/target)
+	.=..()
+	if(HAS_TRAIT(target, TRAIT_FLOORED) || target.resting)
+		world.log << "Pass" //These are for debug for now, remove these later
+		new /obj/structure/bed/roller/medigun(target.loc)
+	else
+		world.log << "Fail"//These are for debug for now, remove these later
+
+/obj/structure/bed/roller/medigun
+	name = "Hardlight Roller Bed"

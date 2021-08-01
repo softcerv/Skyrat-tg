@@ -158,6 +158,13 @@
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/oxy3
 //End of Tier III
+//Specialized Cells//
+/obj/item/medicell/bed
+	name = "Hardlight Bed Medicell"
+	desc = "A small cell with a intense blue glow. Can be used on Mediguns to unlock the Oxygen II Functoinality"
+	w_class = WEIGHT_CLASS_SMALL
+	icon_state = "Oxy3"
+	ammo_type = /obj/item/ammo_casing/energy/medical/bed
 //Medigun Gunsets/
 /obj/item/storage/briefcase/medicalgunset/
 	name = "Medigun Supply Kit"
