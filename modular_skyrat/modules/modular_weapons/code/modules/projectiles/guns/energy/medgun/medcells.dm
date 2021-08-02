@@ -194,10 +194,26 @@
 /obj/projectile/energy/medical/bed/on_hit(mob/living/target)
 	.=..()
 	if(HAS_TRAIT(target, TRAIT_FLOORED) || target.resting)
-		world.log << "Pass" //These are for debug for now, remove these later
 		new /obj/structure/bed/roller/medigun(target.loc)
 	else
-		world.log << "Fail"//These are for debug for now, remove these later
+		return
 
 /obj/structure/bed/roller/medigun
 	name = "Hardlight Roller Bed"
+	desc = "A Roller Bed made out of Hardlight"
+	max_integrity = 1
+	buildstacktype = 0
+
+/obj/structure/bed/roller/post_unbuckle_mob(mob/living/M)
+	set_density(FALSE)
+	M.pixel_y = M.base_pixel_y + M.body_position_pixel_y_offset
+	qdel(src)
+
+/obj/structure/bed/roller/medigun/MouseDrop(over_object, src_location, over_location)
+	if(over_object == usr && Adjacent(usr))
+		if(!ishuman(usr) || !usr.canUseTopic(src, BE_CLOSE))
+			return FALSE
+		if(has_buckled_mobs())
+			return FALSE
+		usr.visible_message(span_notice("[usr] deactivates \the [src.name]."), span_notice("You deactivate \the [src.name]."))
+		qdel(src)
