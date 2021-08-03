@@ -234,7 +234,7 @@
 	damage = 0
 
 /obj/projectile/energy/medical/bed/on_hit(mob/living/target)
-	.=..()
+	. = ..()
 	if(HAS_TRAIT(target, TRAIT_FLOORED) || target.resting)
 		new /obj/structure/bed/roller/medigun(target.loc)
 	else
@@ -259,3 +259,45 @@
 			return FALSE
 		usr.visible_message(span_notice("[usr] deactivates \the [src.name]."), span_notice("You deactivate \the [src.name]."))
 		qdel(src)
+
+//STABILIZER POD
+/obj/item/ammo_casing/energy/medical/upgraded/stabilizer
+	projectile_type = /obj/projectile/energy/medical/upgraded/stabilizer
+	select_name = "Stabilizer Pod"
+	fire_sound = 'sound/effects/stealthoff.ogg'
+	e_cost = 600
+	harmful = FALSE
+
+/obj/projectile/energy/medical/upgraded/stabilizer
+	name = "stabilizer field"
+	icon_state = "blue_laser"
+	damage = 0
+
+/obj/projectile/energy/medical/upgraded/stabilizer/on_hit(mob/living/target)
+	. = ..()
+	if(istype(target, /mob/living/carbon/))
+		var/obj/structure/gel_cocoon/medbay/cocoon = new /obj/structure/gel_cocoon/medbay(get_turf(target))
+		cocoon.insert_target(target)
+		ADD_TRAIT(target, TRAIT_NOCRITDAMAGE, TRAIT_GENERIC)
+	else
+		return
+
+//this is basically just a incredibly toned down version of the grapes' cocoon.
+/obj/structure/gel_cocoon/medbay
+	name = "stabilizer cocoon"
+	desc = "A hardlight stasis pod, the patient inside is dosed with Epinephrine while they recover."
+	max_integrity = 10 //can withstand a bit, but still easily breakable
+
+/obj/structure/gel_cocoon/medbay/container_resist_act(mob/living/user)
+	user.visible_message(span_notice("You see [user] breaking out of [src]!"), \
+		span_notice("You start tearing the soft tissue of the gel cocoon"))
+	if(!do_after(user, 0.5 SECONDS, target = src))
+		return FALSE
+	dump_inhabitant()
+	REMOVE_TRAIT(user, TRAIT_NOCRITDAMAGE, TRAIT_GENERIC)
+
+/obj/structure/gel_cocoon/medbay/Destroy()
+	. = ..()
+	REMOVE_TRAIT(inhabitant, TRAIT_NOCRITDAMAGE, TRAIT_GENERIC)
+
+/obj/structure/gel_cocoon/medbay/process()

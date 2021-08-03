@@ -165,6 +165,13 @@
 	w_class = WEIGHT_CLASS_SMALL
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/bed
+
+/obj/item/medicell/stabilizerpod
+	name = "Stabilizer Pod Medicell"
+	desc = ""
+	w_class = WEIGHT_CLASS_SMALL
+	icon_state = "Oxy3"
+	ammo_type = /obj/item/ammo_casing/energy/medical/upgraded/stabilizer
 //Medigun Gunsets/
 /obj/item/storage/briefcase/medicalgunset/
 	name = "Medigun Supply Kit"
