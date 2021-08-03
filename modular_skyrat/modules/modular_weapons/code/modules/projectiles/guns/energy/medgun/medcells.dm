@@ -305,11 +305,8 @@
 
 /obj/structure/gel_cocoon/medbay/process()
 //Helps stabilize patients, but is worse than atropine
-	if(inhabitant.reagents.get_reagent_amount(/datum/reagent/medicine/epinephrine) < 5)
+	if(inhabitant.reagents.get_reagent_amount(/datum/reagent/medicine/epinephrine) < 2.5)
 		inhabitant.reagents.add_reagent(/datum/reagent/medicine/epinephrine, 0.5)
-//Might end up removing the saline glucose part of this, not sure.
-	if(inhabitant.reagents.get_reagent_amount(/datum/reagent/medicine/salglu_solution) < 5)
-		inhabitant.reagents.add_reagent(/datum/reagent/medicine/salglu_solution, 0.5)
 //Ejects Critical Patients once they are healed
 	if(crit == TRUE)
 		if(!HAS_TRAIT(inhabitant, TRAIT_CRITICAL_CONDITION))
