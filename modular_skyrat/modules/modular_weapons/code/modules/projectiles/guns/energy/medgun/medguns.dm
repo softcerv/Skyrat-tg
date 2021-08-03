@@ -161,14 +161,14 @@
 //Specialized Cells//
 /obj/item/medicell/bed
 	name = "Hardlight Bed Medicell"
-	desc = "A small cell with a intense blue glow. Can be used on Mediguns to unlock the Oxygen II Functoinality"
+	desc = "PLACESOMETHINGHERE"
 	w_class = WEIGHT_CLASS_SMALL
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/bed
 
 /obj/item/medicell/stabilizerpod
 	name = "Stabilizer Pod Medicell"
-	desc = ""
+	desc = "PLACESOMETHINGHERE"
 	w_class = WEIGHT_CLASS_SMALL
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/upgraded/stabilizer
