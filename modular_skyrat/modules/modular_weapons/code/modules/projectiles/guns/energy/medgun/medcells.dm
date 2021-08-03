@@ -279,6 +279,8 @@
 		var/obj/structure/gel_cocoon/medbay/cocoon = new /obj/structure/gel_cocoon/medbay(get_turf(target))
 		cocoon.insert_target(target)
 		ADD_TRAIT(target, TRAIT_NOCRITDAMAGE, TRAIT_GENERIC)
+		if(HAS_TRAIT(target, TRAIT_CRITICAL_CONDITION))
+			cocoon.crit = TRUE
 	else
 		return
 
@@ -287,6 +289,7 @@
 	name = "stabilizer cocoon"
 	desc = "A hardlight stasis pod, the patient inside is dosed with Epinephrine while they recover."
 	max_integrity = 10 //can withstand a bit, but still easily breakable
+	var/crit = FALSE
 
 /obj/structure/gel_cocoon/medbay/container_resist_act(mob/living/user)
 	user.visible_message(span_notice("You see [user] breaking out of [src]!"), \
@@ -301,3 +304,15 @@
 	REMOVE_TRAIT(inhabitant, TRAIT_NOCRITDAMAGE, TRAIT_GENERIC)
 
 /obj/structure/gel_cocoon/medbay/process()
+//Helps stabilize patients, but is worse than atropine
+	if(inhabitant.reagents.get_reagent_amount(/datum/reagent/medicine/epinephrine) < 5)
+		inhabitant.reagents.add_reagent(/datum/reagent/medicine/epinephrine, 0.5)
+//Might end up removing the saline glucose part of this, not sure.
+	if(inhabitant.reagents.get_reagent_amount(/datum/reagent/medicine/salglu_solution) < 5)
+		inhabitant.reagents.add_reagent(/datum/reagent/medicine/salglu_solution, 0.5)
+//Ejects Critical Patients once they are healed
+	if(crit == TRUE)
+		if(!HAS_TRAIT(inhabitant, TRAIT_CRITICAL_CONDITION))
+			dump_inhabitant()
+		else
+			return
