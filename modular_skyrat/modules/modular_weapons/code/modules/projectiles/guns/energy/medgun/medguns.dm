@@ -86,6 +86,7 @@
 	icon_state = "Oxy1"
 	w_class = WEIGHT_CLASS_SMALL
 	var/ammo_type = /obj/item/ammo_casing/energy/medical //This is the ammo type that all mediguns come with.
+	var/utility = FALSE //Determines whether not this cell is a utility cell.
 
 /obj/item/medicell/Initialize()
 	. =..()
@@ -169,6 +170,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/bed
+	utility = TRUE
 
 /obj/item/medicell/stabilizerpod
 	name = "Stabilizer Pod Medicell"
@@ -176,6 +178,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/upgraded/stabilizer
+	utility = TRUE
 //Medigun Gunsets/
 /obj/item/storage/briefcase/medicalgunset/
 	name = "Medigun Supply Kit"
@@ -211,14 +214,18 @@
 	if(istype(M, /obj/item/medicell))
 		if(cellcount >= maxcells)
 			to_chat(user, span_notice("The Medigun is full, take a cell out to make room"))
-		else
-			if(!user.transferItemToLoc(M, src))
-				return
-			playsound(loc, 'sound/machines/click.ogg', 50, 1)
-			to_chat(user, span_notice("You install the medicell."))
-			ammo_type += new M.ammo_type(src)
-			installedcells += M
-			cellcount += 1
+			return FALSE
+		if(src.utilityonly)
+			if(!M.utility)
+				to_chat(user, span_notice("The [M] is not compatible with the [src]"))
+				return FALSE
+		if(!user.transferItemToLoc(M, src))
+			return
+		playsound(loc, 'sound/machines/click.ogg', 50, 1)
+		to_chat(user, span_notice("You install the medicell."))
+		ammo_type += new M.ammo_type(src)
+		installedcells += M
+		cellcount += 1
 	else
 		..()
 
