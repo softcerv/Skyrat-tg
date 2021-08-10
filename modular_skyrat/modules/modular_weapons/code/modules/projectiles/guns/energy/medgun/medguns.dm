@@ -15,6 +15,7 @@
 	var/maxcells = 3
 	var/cellcount = 0
 	var/list/installedcells = list()
+	var/utilityonly = FALSE
 
 /obj/item/gun/energy/medigun/examine(mob/user)
 	. = ..()
@@ -55,6 +56,20 @@
 	var/mutable_appearance/cmo_medigun = mutable_appearance('modular_skyrat/modules/modular_weapons/icons/obj/guns/mediguns/projectile.dmi', "medigun_cmo")
 	add_overlay(cmo_medigun)
 
+//Paramedic Medigun
+/obj/item/gun/energy/medigun/paramed
+	name = "VeyMedical CWM-478 Cell Powered Medigun"
+	desc = "The budget-friendly sibling of the CWM-479 line of Mediguns, the CWM-478 is limited to only utility type cells."
+	cell_type = /obj/item/stock_parts/cell/medigun/paramed
+	maxcells = 1
+	selfcharge = 1
+	can_charge = FALSE
+	utilityonly = TRUE //This can only use cells marked as utility
+
+/obj/item/gun/energy/medigun/paramed/Initialize()
+	. = ..()
+	var/mutable_appearance/para_medigun = mutable_appearance('modular_skyrat/modules/modular_weapons/icons/obj/guns/mediguns/projectile.dmi', "medigun_para")
+	add_overlay(para_medigun)
 //Upgrade Kit//
 /obj/item/upgradekit/medigun/charge
 	name = "VeyMedical CWM-479 upgrade kit"

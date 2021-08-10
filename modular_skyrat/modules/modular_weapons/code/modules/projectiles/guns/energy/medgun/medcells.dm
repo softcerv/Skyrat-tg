@@ -13,6 +13,11 @@
 	name = "Experiemental Medigun Cell"
 	maxcharge = 1800
 	chargerate = 100
+
+/obj/item/stock_parts/cell/medigun/paramed //Not sure if I want to keep this self-charge or not. I'm leaning towards self-charge right now since it's piss poor anyways.
+	name = "Paramedic Medigun Cell"
+	maxcharge = 600
+	chargerate = 40 //I'll probably want to tweak the values on this.....
 //End of cells
 
 /obj/item/ammo_casing/energy/medical
