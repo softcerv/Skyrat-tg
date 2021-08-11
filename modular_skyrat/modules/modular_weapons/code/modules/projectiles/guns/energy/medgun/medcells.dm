@@ -83,7 +83,7 @@
 		return
 	if(target.stat == DEAD)
 		return
-	if(target.getFireLoss() > 49 && target.geFireLoss() < 100 )
+	if(target.getFireLoss() > 49 && target.getFireLoss() < 100 )
 		target.adjustCloneLoss(2.45)
 	if(target.getFireLoss() > 99)
 		target.adjustCloneLoss(4.9)
@@ -126,7 +126,7 @@
 	if(target.getBruteLoss() > 49 && target.getBruteLoss() < 100 )
 		target.adjustCloneLoss(1.9)
 	if(target.getBruteLoss() > 99)
-		target.adjustCloneLoss(.3.8)
+		target.adjustCloneLoss(3.8)
 	target.adjustBruteLoss(-11.25)
 //Tier II Burn Projectile//
 /obj/item/ammo_casing/energy/medical/burn2
@@ -146,7 +146,7 @@
 	if(target.getFireLoss() > 49 && target.getFireLoss() < 100 )
 		target.adjustCloneLoss(1.9)
 	if(target.getFireLoss() > 99)
-		target.adjustCloneLoss(.3.8)
+		target.adjustCloneLoss(3.8)
 	target.adjustFireLoss(-11.25)
 //Tier II Oxy Projectile//
 /obj/item/ammo_casing/energy/medical/oxy2
