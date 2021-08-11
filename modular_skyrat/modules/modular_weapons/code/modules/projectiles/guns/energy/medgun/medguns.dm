@@ -167,7 +167,6 @@
 /obj/item/medicell/bed
 	name = "Hardlight Bed Medicell"
 	desc = "PLACESOMETHINGHERE"
-	w_class = WEIGHT_CLASS_SMALL
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/bed
 	utility = TRUE
@@ -175,9 +174,15 @@
 /obj/item/medicell/stabilizerpod
 	name = "Stabilizer Pod Medicell"
 	desc = "PLACESOMETHINGHERE"
-	w_class = WEIGHT_CLASS_SMALL
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/upgraded/stabilizer
+	utility = TRUE
+
+/obj/item/medicell/clot
+	name = "Clotting Medicell"
+	desc = "PLACESOMETHINGHERE"
+	icon_state = "Oxy3"
+	ammo_type = /obj/item/ammo_casing/energy/medical/upgraded/clot
 	utility = TRUE
 //Medigun Gunsets/
 /obj/item/storage/briefcase/medicalgunset/

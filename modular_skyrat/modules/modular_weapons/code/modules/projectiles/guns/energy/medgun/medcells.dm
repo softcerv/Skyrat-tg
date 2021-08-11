@@ -236,7 +236,7 @@
 //Roller Bed//
 /obj/item/ammo_casing/energy/medical/bed
 	projectile_type = /obj/projectile/energy/medical/bed
-	select_name = "Hard Light Bed"
+	select_name = "hard light bed"
 	fire_sound = 'sound/effects/stealthoff.ogg'
 	e_cost = 240
 	harmful = FALSE
@@ -248,6 +248,8 @@
 
 /obj/projectile/energy/medical/bed/on_hit(mob/living/target)
 	. = ..()
+	if(!istype(target, /mob/living/carbon/human))
+		return
 	if(HAS_TRAIT(target, TRAIT_FLOORED) || target.resting)
 		new /obj/structure/bed/roller/medigun(target.loc)
 	else
@@ -259,7 +261,7 @@
 	max_integrity = 1
 	buildstacktype = 0
 
-/obj/structure/bed/roller/post_unbuckle_mob(mob/living/M)
+/obj/structure/bed/roller/medigun/post_unbuckle_mob(mob/living/M)
 	set_density(FALSE)
 	M.pixel_y = M.base_pixel_y + M.body_position_pixel_y_offset
 	qdel(src)
@@ -276,7 +278,7 @@
 //STABILIZER POD
 /obj/item/ammo_casing/energy/medical/upgraded/stabilizer
 	projectile_type = /obj/projectile/energy/medical/upgraded/stabilizer
-	select_name = "Stabilizer Pod"
+	select_name = "stabilizer pod"
 	fire_sound = 'sound/effects/stealthoff.ogg'
 	e_cost = 600
 	harmful = FALSE
@@ -326,3 +328,26 @@
 			dump_inhabitant()
 		else
 			return
+
+//Blood Clotting Cell
+/obj/item/ammo_casing/energy/medical/upgraded/clot
+	projectile_type = /obj/projectile/energy/medical/upgraded/clot
+	select_name = "clot"
+	fire_sound = 'sound/effects/stealthoff.ogg'
+	e_cost = 120
+	harmful = FALSE
+
+/obj/projectile/energy/medical/upgraded/clot
+	name = "coagulant agent"
+	icon_state = "blue_laser"
+	damage = 0
+
+/obj/projectile/energy/medical/upgraded/clot/on_hit(mob/living/target)
+	. = ..()
+	if(!istype(target, /mob/living/carbon/human))
+		return
+//Using Sanguirite because there really isn't a way to make it normally.
+	if(target.reagents.get_reagent_amount(/datum/reagent/medicine/coagulant) < 5) //Will have to see how this works in practice.
+		target.reagents.add_reagent(/datum/reagent/medicine/coagulant, 1)
+	else
+		return
