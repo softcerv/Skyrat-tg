@@ -367,3 +367,31 @@
 		target.reagents.add_reagent(/datum/reagent/medicine/coagulant, 1)
 	else
 		return
+
+//Temperature Adjustment Cell
+/obj/item/ammo_casing/energy/medical/temp
+	projectile_type = /obj/projectile/energy/medical/temp
+	select_name = "temperature"
+	fire_sound = 'sound/effects/stealthoff.ogg'
+	e_cost = 120
+	harmful = FALSE
+
+/obj/projectile/energy/medical/temp
+	name = "temperature stabilizer"
+	icon_state = "blue_laser"
+	damage = 0
+
+/obj/projectile/energy/medical/temp/on_hit(mob/living/target)
+	. = ..()
+	if(!istype(target, /mob/living/carbon/human))
+		return
+	var/ideal = target.get_body_temp_normal(apply_change=FALSE)
+	var/difference = (ideal - target.bodytemperature)
+	if(difference > -20 && difference < 20)
+		return
+	if(difference > 19) //Increases Body Temperature
+		target.adjust_bodytemperature(20)
+	if(difference < -19) //Decreases Body Temperature
+		target.adjust_bodytemperature(-20)
+	else
+		return

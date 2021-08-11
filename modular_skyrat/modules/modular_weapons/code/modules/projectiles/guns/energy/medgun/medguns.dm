@@ -184,6 +184,13 @@
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/upgraded/clot
 	utility = TRUE
+
+/obj/item/medicell/temp
+	name = "Temperature Medicell"
+	desc = "PLACESOMETHINGHERE"
+	icon_state = "Oxy3"
+	ammo_type = /obj/item/ammo_casing/energy/medical/temp
+	utility = TRUE
 //Medigun Gunsets/
 /obj/item/storage/briefcase/medicalgunset/
 	name = "Medigun Supply Kit"
