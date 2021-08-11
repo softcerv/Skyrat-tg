@@ -214,6 +214,14 @@
 	new /obj/item/medicell/burn1(src)
 	new /obj/item/medicell/toxin1(src)
 
+//Medigun Manual - People shouldn't have to skim through code to understand how all of this works.
+/obj/item/book/manual/wiki/medigun
+	name = "VeyMedical Medigun Owner Manual"
+	skyrat_wiki = TRUE
+	icon_state = "book4" //I should probably make custom textures for this....
+	author = "VeyMedical"
+	title = "VeyMedical Medigun Owner Manual"
+	page_link = "Guide_to_Mediguns"
 //Medigun Cell Insertion and Removal//
 /obj/item/gun/energy/medigun/attackby(obj/item/medicell/M, mob/user)
 	if(istype(M, /obj/item/medicell))
