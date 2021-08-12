@@ -164,32 +164,40 @@
 	ammo_type = /obj/item/ammo_casing/energy/medical/oxy3
 //End of Tier III
 //Specialized Cells//
+//Hardlight Bed
 /obj/item/medicell/bed
 	name = "Hardlight Bed Medicell"
 	desc = "PLACESOMETHINGHERE"
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/bed
 	utility = TRUE
-
+//Stabilizer
 /obj/item/medicell/stabilizerpod
 	name = "Stabilizer Pod Medicell"
 	desc = "PLACESOMETHINGHERE"
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/upgraded/stabilizer
 	utility = TRUE
-
+//Clotting
 /obj/item/medicell/clot
 	name = "Clotting Medicell"
 	desc = "PLACESOMETHINGHERE"
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/upgraded/clot
 	utility = TRUE
-
+//Temperature Adjuster
 /obj/item/medicell/temp
 	name = "Temperature Medicell"
 	desc = "PLACESOMETHINGHERE"
 	icon_state = "Oxy3"
 	ammo_type = /obj/item/ammo_casing/energy/medical/temp
+	utility = TRUE
+//Purge Mode
+/obj/item/medicell/marker
+	name = "Marker Medicell"
+	desc = "PLACESOMETHINGHERE"
+	icon_state = "Oxy3"
+	ammo_type = /obj/item/ammo_casing/energy/medical/upgraded/marker
 	utility = TRUE
 //Medigun Gunsets/
 /obj/item/storage/briefcase/medicalgunset/

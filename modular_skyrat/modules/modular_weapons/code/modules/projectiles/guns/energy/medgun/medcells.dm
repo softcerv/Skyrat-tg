@@ -395,3 +395,25 @@
 		target.adjust_bodytemperature(-20)
 	else
 		return
+
+//Marker Cell. Good for telling people to get treatment in a pinch.
+/obj/item/ammo_casing/energy/medical/upgraded/marker
+	projectile_type = /obj/projectile/energy/medical/upgraded/marker
+	select_name = "marker"
+	fire_sound = 'sound/effects/stealthoff.ogg'
+	delay = 16 //Want to discourage people from spamming this.
+	e_cost = 60 //Cheaper since this really doesn't provide any benefit other than getting someone's attention.
+	harmful = FALSE
+
+/obj/projectile/energy/medical/upgraded/marker
+	name = "medical marker"
+	icon_state = "blue_laser"
+	damage = 0
+
+/obj/projectile/energy/medical/upgraded/marker/on_hit(mob/living/target)
+	. = ..()
+	if(!istype(target, /mob/living))
+		return
+	new /obj/effect/temp_visual/medical_holosign(target.loc,target)
+	to_chat(target, span_notice("Someone is trying to give you medical treatment")) //hmmmmm, might want to change this later.
+	return
