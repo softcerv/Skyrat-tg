@@ -618,6 +618,10 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/unpowered/syndicate_lava_base/cargo)
+"gH" = (
+/obj/machinery/oven,
+/turf/open/floor/iron/dark/smooth_large,
+/area/ruin/unpowered/syndicate_lava_base/bar)
 "gQ" = (
 /obj/machinery/conveyor{
 	dir = 4;
@@ -6064,7 +6068,7 @@ WW
 QQ
 WW
 Tx
-kY
+gH
 eM
 Dy
 do

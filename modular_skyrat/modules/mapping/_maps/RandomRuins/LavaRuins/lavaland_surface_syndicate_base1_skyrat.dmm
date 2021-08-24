@@ -3870,6 +3870,10 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/white,
 /area/ruin/unpowered/syndicate_lava_base/medbay)
+"VD" = (
+/obj/machinery/oven,
+/turf/open/floor/iron/dark/smooth_large,
+/area/ruin/unpowered/syndicate_lava_base/bar)
 "VI" = (
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/iron,
@@ -6064,7 +6068,7 @@ WW
 QQ
 WW
 Tx
-kY
+VD
 eM
 Dy
 do

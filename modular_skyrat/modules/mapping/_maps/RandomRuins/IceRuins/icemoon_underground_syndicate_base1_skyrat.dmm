@@ -4257,6 +4257,10 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/iron/kitchen,
 /area/ruin/unpowered/syndicate_lava_base/bar)
+"YK" = (
+/obj/machinery/oven,
+/turf/open/floor/iron/dark/smooth_large,
+/area/ruin/unpowered/syndicate_lava_base/bar)
 "YM" = (
 /obj/structure/dresser,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
@@ -6062,7 +6066,7 @@ sF
 dR
 sF
 td
-Tl
+YK
 Li
 bu
 kZ
