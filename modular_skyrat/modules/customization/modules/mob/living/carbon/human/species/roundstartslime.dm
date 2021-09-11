@@ -231,7 +231,7 @@
 			H.mutant_renderkey = "" //Just in case
 			H.update_mutant_bodyparts()
 
-//Code for the Citadel-Slime form. This is mostly copied over.
+//Code for the Citadel-Slime form. This code is heavily based of the original code on Citadel and takes parts from it.
 
 /datum/action/innate/slime_puddle
 	name = "Puddle Transformation"
@@ -261,11 +261,35 @@
 			to_chat(owner, span_notice("There is something stuck to your hand, you cannot transform"))
 			return
 	if(IsAvailable())
+		var/mutcolor = "#" + H.dna.features["mcolor"]
 		if(is_puddle == FALSE)
 			transforming = TRUE
-			to_chat(owner, span_notice("you have been transformed"))
 			is_puddle = TRUE
+			owner.cut_overlays()
+			var/obj/effect/puddle_effect = new puddle_into_effect(get_turf(owner), owner.dir)
+			puddle_effect.color = mutcolor
+			H.Stun(in_transformation_duration, ignore_canstun = TRUE)
+			sleep(in_transformation_duration)
+			var/mutable_appearance/puddle_overlay = mutable_appearance(icon = puddle_icon, icon_state = puddle_state)
+			puddle_overlay.color = mutcolor
+			tracked_overlay = puddle_overlay
+			owner.add_overlay(puddle_overlay)
+			transform()
+			transforming = FALSE
 		else
 			to_chat(owner, span_notice("you are whole again"))
 			transforming = TRUE
 			is_puddle = FALSE
+			owner.cut_overlay(tracked_overlay)
+			var/obj/effect/puddle_effect = new puddle_from_effect(get_turf(owner), owner.dir)
+			puddle_effect.color = mutcolor
+			H.Stun(out_transformation_duration, ignore_canstun = TRUE)
+			sleep(out_transformation_duration)
+			owner.regenerate_icons()
+			is_puddle = FALSE
+			transforming = FALSE
+
+
+/datum/action/innate/slime_puddle/proc/transform()
+
+/datum/action/innate/slime_puddle/proc/detransform()
