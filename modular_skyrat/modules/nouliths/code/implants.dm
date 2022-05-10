@@ -36,13 +36,14 @@
 		return TRUE
 
 	linked_weapon = target_weapon
-	to_chat(user, span_notice("You unattune to the [target_weapon]."))
+	to_chat(user, span_notice("You attune to the [target_weapon]."))
 
 /obj/item
 	/// Is an item able to be attuned with a Noulith Connection Bridge.
 	var/attunable
 
-/datum/action/item_action/organ_action/use/attune/New(Target)
+/datum/action/item_action/organ_action/use/attune
+	..()
 	name = "Attune"
 
 /obj/item/autosurgeon/organ/noulith_bridge
