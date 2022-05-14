@@ -7,16 +7,18 @@
 	var/obj/item/linked_weapon
 	/// Is the implant only allowed to attune to select weapons. This should only be disabled on debug items.
 	var/unrestricted_attunement = TRUE
-	actions_types = list(/datum/action/item_action/organ_action/use/attune)
+	actions_types = list(/datum/action/item_action/noulith_bridge/open_menu)
 
 /obj/item/organ/cyberimp/brain/noulith_bridge/Insert(mob/living/carbon/insertee)
 	. = ..()
 	linked_mob = insertee
+	loc = insertee
 
 /obj/item/organ/cyberimp/brain/noulith_bridge/Remove(mob/living/carbon/removee)
 	. = ..()
 	linked_mob = null
 
+/*
 /obj/item/organ/cyberimp/brain/noulith_bridge/ui_action_click(mob/user)
 	. = ..()
 	var/held_item = user.get_active_held_item()
@@ -24,6 +26,8 @@
 		to_chat(user, span_notice("You don't have anything your active hand."))
 		return FALSE
 	attune_to_weapon(user, held_item)
+*/
+
 
 /obj/item/organ/cyberimp/brain/noulith_bridge/proc/attune_to_weapon(mob/living/user, obj/item/target_weapon)
 	if(!unrestricted_attunement && !target_weapon.attunable)
@@ -38,14 +42,24 @@
 	linked_weapon = target_weapon
 	to_chat(user, span_notice("You attune to the [target_weapon]."))
 
+/datum/action/item_action/noulith_bridge
+	background_icon_state = "bg_tech_blue"
+	icon_icon = 'icons/mob/actions/actions_mod.dmi'
+	check_flags = AB_CHECK_CONSCIOUS
+
+/datum/action/item_action/noulith_bridge/open_menu
+	name = "Open Noulith Menu"
+
+/datum/action/item_action/noulith_bridge/open_menu/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+		return
+	var/datum/action/item_action/noulith_bridge/bridge = target
+	bridge.ui_interact(usr)
+
 /obj/item
 	/// Is an item able to be attuned with a Noulith Connection Bridge.
 	var/attunable
 
-/datum/action/item_action/organ_action/use/attune
-	..()
-	name = "Attune"
-
 /obj/item/autosurgeon/organ/noulith_bridge
 	starting_organ = /obj/item/organ/cyberimp/brain/noulith_bridge
-
