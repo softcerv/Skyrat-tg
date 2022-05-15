@@ -18,4 +18,8 @@
 
 	if(action == "attune")
 		attune_to_weapon()
+		SStgui.update_uis(src)
 
+	if(action == "summon")
+		summon_weapon()
+		SStgui.update_uis(src)

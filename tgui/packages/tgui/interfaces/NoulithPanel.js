@@ -34,11 +34,22 @@ export const NoulithPanel = (props, context) => {
         </Section>
         <Button
           textAlign="center"
-          content={linked_weapon ? "Unattune from Weapon" : "Attune to Weapon"}
+          content={linked_weapon ? "Unattune from the linked weapon" : "Attune to a weapon"}
           color={linked_weapon ? "red" : "green"}
           fluid
           onClick={() => act("attune")}
         />
+        {linked_weapon ? (
+          <Section title={`Weapon Abilities`}>
+            <Button
+              textAlign="center"
+              content="Summon Weapon"
+              tooltip="Summons your currently linked_weapon to your hand. Requires you to be close, or have a special weapon."
+              fluid
+              onClick={() => act("summon")}
+            />
+          </Section>
+        ) : (<> </>)}
       </Window.Content>
     </Window>
   );

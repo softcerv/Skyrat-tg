@@ -5,6 +5,8 @@
 	var/mob/living/carbon/human/linked_mob
 	/// The weapon currently linked with the implant.
 	var/obj/item/linked_weapon
+	/// Stores the weapon description.
+	var/linked_weapon_description
 	/// Is the implant only allowed to attune to select weapons. This should only be disabled on debug items.
 	var/unrestricted_attunement = TRUE
 	actions_types = list(/datum/action/item_action/noulith_bridge/open_menu)
@@ -48,7 +50,23 @@
 		return FALSE
 
 	linked_weapon = held_item
+	if(linked_weapon.desc)
+		linked_weapon_description = linked_weapon.desc
 	to_chat(linked_mob, span_notice("You attune to the [held_item]."))
+
+/obj/item/organ/cyberimp/brain/noulith_bridge/proc/summon_weapon()
+	if(!linked_weapon)
+		return FALSE
+
+	if(!unlimited_summoning || !linked_mob.Adjacent(linked_weapon))
+		to_chat(linked_mob, span_warning("You fail to grab the weapon, it may be too far away."))
+		return FALSE
+
+	if(!linked_mob.put_in_hands(linked_weapon))
+		to_chat(linked_mob, span_warning("You were unable to hold the [linked_weapon]"))
+		return FALSE
+
+	linked_mob.visible_message(span_notice("The [linked_weapon] flies into [linked_mob]'s hand!"), span_notice("The [linked_weapon] flies into your hand."))
 
 /datum/action/item_action/noulith_bridge
 	background_icon_state = "bg_tech_blue"
@@ -68,6 +86,8 @@
 /obj/item
 	/// Is an item able to be attuned with a Noulith Connection Bridge.
 	var/attunable
+	/// Does the weapon have an unlimited summon range? relates to Nouliths
+	var/unlimited_summoning = TRUE
 
 /obj/item/autosurgeon/organ/noulith_bridge
 	starting_organ = /obj/item/organ/cyberimp/brain/noulith_bridge
