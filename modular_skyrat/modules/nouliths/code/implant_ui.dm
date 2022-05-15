@@ -8,7 +8,7 @@
 	var/data = list()
 	data["linked_mob"] = linked_mob
 	data["linked_weapon"] = linked_weapon
-	data["linked_weapon_description"] = linked_weapon.desc
+	data["linked_weapon_description"] = linked_weapon_description
 	return data
 
 /obj/item/organ/cyberimp/brain/noulith_bridge/ui_act(action, list/params)

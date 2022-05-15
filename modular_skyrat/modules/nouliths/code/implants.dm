@@ -69,12 +69,14 @@
 	linked_mob.visible_message(span_notice("The [linked_weapon] flies into [linked_mob]'s hand!"), span_notice("The [linked_weapon] flies into your hand."))
 
 /datum/action/item_action/noulith_bridge
-	background_icon_state = "bg_tech_blue"
-	icon_icon = 'icons/mob/actions/actions_mod.dmi'
+	button_icon = 'modular_skyrat/modules/nouliths/icons/mob/backgrounds.dmi'
+	background_icon_state = "android"
+	icon_icon = 'modular_skyrat/modules/nouliths/icons/mob/actions.dmi'
 	check_flags = AB_CHECK_CONSCIOUS
 
 /datum/action/item_action/noulith_bridge/open_menu
 	name = "Open Noulith Menu"
+	button_icon_state = "weapon"
 
 /datum/action/item_action/noulith_bridge/open_menu/Trigger(trigger_flags)
 	. = ..()
