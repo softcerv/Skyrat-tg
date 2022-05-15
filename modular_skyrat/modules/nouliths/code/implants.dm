@@ -29,18 +29,26 @@
 */
 
 
-/obj/item/organ/cyberimp/brain/noulith_bridge/proc/attune_to_weapon(mob/living/user, obj/item/target_weapon)
-	if(!unrestricted_attunement && !target_weapon.attunable)
-		to_chat(user, span_notice("You are unable to attune to the current item."))
+/obj/item/organ/cyberimp/brain/noulith_bridge/proc/attune_to_weapon()
+	if(!linked_mob)
 		return FALSE
 
-	if(linked_weapon == target_weapon)
+	if(linked_weapon)
+		to_chat(linked_mob, span_notice("You unattune from the [linked_weapon]."))
 		linked_weapon = null
-		to_chat(user, span_notice("You unattune from the [target_weapon]."))
 		return TRUE
 
-	linked_weapon = target_weapon
-	to_chat(user, span_notice("You attune to the [target_weapon]."))
+	var/obj/item/held_item = linked_mob.get_active_held_item()
+	if(!held_item)
+		to_chat(linked_mob, span_notice("You don't have anything your active hand."))
+		return FALSE
+
+	if(!unrestricted_attunement && !held_item.attunable)
+		to_chat(linked_mob, span_notice("You are unable to attune to the current item."))
+		return FALSE
+
+	linked_weapon = held_item
+	to_chat(linked_mob, span_notice("You attune to the [held_item]."))
 
 /datum/action/item_action/noulith_bridge
 	background_icon_state = "bg_tech_blue"
