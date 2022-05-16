@@ -126,7 +126,7 @@
 
 /datum/action/item_action/noulith_bridge/open_menu
 	name = "Open Noulith Menu"
-	button_icon_state = "weapon"
+	button_icon_state = "link"
 
 /datum/action/item_action/noulith_bridge/open_menu/Trigger(trigger_flags)
 	. = ..()

@@ -33,5 +33,6 @@
 		SStgui.update_uis(src)
 
 	if(action == "change_examine")
-		custom_examine(params["new_text"])
+		var/text_to_use = html_encode(params["new_text"])
+		custom_examine(text_to_use)
 		SStgui.update_uis(src)
