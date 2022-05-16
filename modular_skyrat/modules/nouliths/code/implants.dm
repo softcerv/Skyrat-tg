@@ -53,6 +53,10 @@
 		to_chat(linked_mob, span_notice("You don't have anything your active hand."))
 		return FALSE
 
+	if(HAS_TRAIT(held_item, TRAIT_NODROP)) // No using this to cheese no_drop items
+		to_chat(linked_mob, span_notice("You can't attune to something stuck to you."))
+		return FALSE
+
 	if(!unrestricted_attunement && !held_item.attunable)
 		to_chat(linked_mob, span_notice("You are unable to attune to the current item."))
 		return FALSE
