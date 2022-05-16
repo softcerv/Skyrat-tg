@@ -1,5 +1,5 @@
 import { useBackend } from '../backend';
-import { LabeledList, Section, Button, Box, Collapsible, BlockQuote } from '../components';
+import { LabeledList, Section, Button, Box, Collapsible, BlockQuote, Input } from '../components';
 import { Window } from '../layouts';
 
 export const NoulithPanel = (props, context) => {
@@ -73,6 +73,18 @@ export const NoulithPanel = (props, context) => {
           fluid
           onClick={() => act("attune")}
         />
+        {linked_weapon ? (
+          <Section title={"Customization Options"}>
+            <Box>
+              {"Custom Description "}
+              <Input
+                content="Custom Description"
+                width="70%"
+                onEnter={(e, value) => act("change_examine", {
+                  new_text: value })} />
+            </Box>
+          </Section>
+        ) : (<> </>)}
       </Window.Content>
     </Window>
   );

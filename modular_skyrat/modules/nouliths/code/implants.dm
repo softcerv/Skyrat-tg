@@ -24,6 +24,8 @@
 	var/pull_cooldown = 15 SECONDS
 	/// Will summon be preformed after pulling?
 	var/summon_after_pull = TRUE
+	/// Stores a weapon's custom exmaine.
+	var/weapon_custom_examine
 
 
 /obj/item/organ/cyberimp/brain/noulith_bridge/Insert(mob/living/carbon/insertee)
@@ -42,6 +44,7 @@
 
 	if(linked_weapon)
 		to_chat(linked_mob, span_notice("You unattune from the [linked_weapon]."))
+		linked_weapon.noulith_custom_examine = null
 		linked_weapon = null
 		return TRUE
 
@@ -101,6 +104,17 @@
 	pull_on_cooldown = TRUE
 	addtimer(CALLBACK(src, .proc/reset_pulltimer), pull_cooldown)
 
+/// Gives the linked weapon a custom examine text.
+/obj/item/organ/cyberimp/brain/noulith_bridge/proc/custom_examine(new_text)
+	if(!linked_weapon)
+		return FALSE
+
+	if(!new_text)
+		linked_weapon.noulith_custom_examine = null
+		return
+	linked_weapon.noulith_custom_examine = new_text
+	weapon_custom_examine = new_text
+
 /obj/item/organ/cyberimp/brain/noulith_bridge/proc/reset_pulltimer()
 	pull_on_cooldown = FALSE
 
@@ -128,6 +142,16 @@
 	var/unlimited_summoning = TRUE
 	/// Shows as text under the lore tab when linked to a Noulith Bridge. Use this to put extra lore in that might not otherwise fit in the weapon description.
 	var/noulith_weapon_lore
+	/// Linked user from a Noulith Bridge
+	var/noulith_linked_mob
+	/// Custom description examine text.
+	var/noulith_custom_examine
+
+/obj/item/examine(mob/user)
+	. = ..()
+	if(noulith_custom_examine)
+		. += "<br>Looking at the [src], it is inscribed by blue light.<br>"
+		. += "<b>[span_cyan(noulith_custom_examine)]</b><br>"
 
 /obj/item/autosurgeon/organ/noulith_bridge
 	starting_organ = /obj/item/organ/cyberimp/brain/noulith_bridge

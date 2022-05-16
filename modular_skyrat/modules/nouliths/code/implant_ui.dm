@@ -10,6 +10,7 @@
 	data["linked_weapon_description"] = linked_weapon_description
 	data["pull_on_cooldown"] = pull_on_cooldown
 	data["weapon_lore"] = stored_weapon_lore
+	data["weapon_examine"] = weapon_custom_examine
 	return data
 
 /obj/item/organ/cyberimp/brain/noulith_bridge/ui_act(action, list/params)
@@ -29,4 +30,8 @@
 		if(pull_on_cooldown)
 			return FALSE
 		pull_weapon()
+		SStgui.update_uis(src)
+
+	if(action == "change_examine")
+		custom_examine(params["new_text"])
 		SStgui.update_uis(src)
