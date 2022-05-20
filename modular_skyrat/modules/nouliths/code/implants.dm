@@ -16,7 +16,7 @@
 
 	// Variables related to abilities, including cooldowns.
 
-	/// Is the implant only allowed to attune to select weapons. This should only be disabled on debug items.
+	/// Is the implant only allowed to attune to select weapons. This should only be enabled on debug items.
 	var/unrestricted_attunement = TRUE
 	/// Is the cooldown currently active on pull?
 	var/pull_on_cooldown =  FALSE
@@ -24,9 +24,14 @@
 	var/pull_cooldown = 15 SECONDS
 	/// Will summon be preformed after pulling?
 	var/summon_after_pull = TRUE
+	/// Stores whether or not a weapon can be stowed.
+	var/weapon_stowable
+	/// Is a weapon currently stowed?
+	var/weapon_stowed = FALSE
+
+	// Variables related to cosmetics
 	/// Stores a weapon's custom exmaine.
 	var/weapon_custom_examine
-
 
 /obj/item/organ/cyberimp/brain/noulith_bridge/Insert(mob/living/carbon/insertee)
 	. = ..()
@@ -37,6 +42,7 @@
 	. = ..()
 	linked_mob = null
 
+//LINK CODE
 /// Links the user with a compatible item. if unrestricted_attunement is enabled, the user can attune with any item in the game.
 /obj/item/organ/cyberimp/brain/noulith_bridge/proc/attune_to_weapon()
 	if(!linked_mob)
@@ -46,6 +52,7 @@
 		to_chat(linked_mob, span_notice("You unattune from the [linked_weapon]."))
 		linked_weapon.noulith_custom_examine = null
 		linked_weapon = null
+		weapon_stowable = null
 		return TRUE
 
 	var/obj/item/held_item = linked_mob.get_active_held_item()
@@ -73,8 +80,10 @@
 	else
 		stored_weapon_lore = "No records are currently avalible."
 
+	weapon_stowable = linked_weapon.noulith_stowable
 	to_chat(linked_mob, span_notice("You attune to the [held_item]."))
 
+//WEAPON ABILITIES
 /// Grabs the weapon, if it is nearby, and places it inside of the linked user's hands.
 /obj/item/organ/cyberimp/brain/noulith_bridge/proc/summon_weapon()
 	if(!linked_weapon)
@@ -88,7 +97,10 @@
 		to_chat(linked_mob, span_warning("You were unable to hold the [linked_weapon]"))
 		return FALSE
 
-	linked_mob.visible_message(span_notice("The [linked_weapon] flies into [linked_mob]'s hand!"), span_notice("The [linked_weapon] flies into your hand."))
+	if(weapon_stowed)
+		linked_mob.visible_message(span_notice("[linked_mob] draws the [linked_weapon] from their back."), span_notice("You draw [linked_weapon] from your back."))
+	else
+		linked_mob.visible_message(span_notice("[linked_weapon] flies into [linked_mob]'s hand!"), span_notice("[linked_weapon] flies into your hand."))
 
 /// Pulls the linked weapon to the user. Uses the same kind of restrictions as TK when it comes to range.
 /obj/item/organ/cyberimp/brain/noulith_bridge/proc/pull_weapon()
@@ -108,6 +120,25 @@
 	pull_on_cooldown = TRUE
 	addtimer(CALLBACK(src, .proc/reset_pulltimer), pull_cooldown)
 
+/obj/item/organ/cyberimp/brain/noulith_bridge/proc/stow()
+	if(!linked_weapon)
+		return FALSE
+
+	if(!weapon_stowable)
+		return FALSE
+
+	if(weapon_stowed)
+		summon_weapon()
+		weapon_stowed = FALSE
+
+		return
+
+	if(!linked_mob.transferItemToLoc(linked_weapon, src))
+		return FALSE
+
+	weapon_stowed = TRUE
+
+// COSMETIC ABILITIES
 /// Gives the linked weapon a custom examine text.
 /obj/item/organ/cyberimp/brain/noulith_bridge/proc/custom_examine(new_text)
 	if(!linked_weapon)
@@ -150,6 +181,8 @@
 	var/noulith_linked_mob
 	/// Custom description examine text.
 	var/noulith_custom_examine
+	/// Is the item stowable?
+	var/noulith_stowable = TRUE
 
 /obj/item/examine(mob/user)
 	. = ..()

@@ -11,6 +11,8 @@
 	data["pull_on_cooldown"] = pull_on_cooldown
 	data["weapon_lore"] = stored_weapon_lore
 	data["weapon_examine"] = weapon_custom_examine
+	data["weapon_stowed"] = weapon_stowed
+	data["weapon_stowable"] = weapon_stowable
 	return data
 
 /obj/item/organ/cyberimp/brain/noulith_bridge/ui_act(action, list/params)
@@ -35,4 +37,8 @@
 	if(action == "change_examine")
 		var/text_to_use = html_encode(params["new_text"])
 		custom_examine(text_to_use)
+		SStgui.update_uis(src)
+
+	if(action == "stow_weapon")
+		stow()
 		SStgui.update_uis(src)
