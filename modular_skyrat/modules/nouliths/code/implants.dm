@@ -126,12 +126,16 @@
 
 	if(!weapon_stowable)
 		return FALSE
+		to_chat(linked_mob, span_warning("You are unable to stow [linked_weapon]"))
 
 	if(weapon_stowed)
 		summon_weapon()
 		weapon_stowed = FALSE
-
 		return
+
+	if(linked_mob.get_active_held_item() != linked_weapon)
+		to_chat(linked_mob, span_warning("You need to hold [linked_weapon], to be able to stow it."))
+		return FALSE
 
 	if(!linked_mob.transferItemToLoc(linked_weapon, src))
 		return FALSE
