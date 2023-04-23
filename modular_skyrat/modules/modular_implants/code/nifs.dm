@@ -20,6 +20,7 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	slot = ORGAN_SLOT_BRAIN_NIF
 	actions_types = list(/datum/action/item_action/nif/open_menu)
+	interaction_flags_atom = INTERACT_ATOM_IGNORE_MOBILITY
 
 	//User Variables
 	///What user is currently linked with the NIF?
