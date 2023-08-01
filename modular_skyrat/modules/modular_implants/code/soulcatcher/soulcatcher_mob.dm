@@ -3,6 +3,8 @@
 	var/soul_desc = "It's a soul."
 	/// What are the ooc notes for the soul?
 	var/ooc_notes = ""
+	/// The preview we use for our soul, so that others can get a better idea of how they look
+	var/atom/movable/screen/map_view/char_preview/soul_preview
 
 	/// Assuming we died inside of the round? What is our previous body?
 	var/datum/weakref/previous_body
@@ -46,6 +48,17 @@
 	soulcatcher_action.Grant(src)
 	var/datum/component/soulcatcher_user/user_component = AddComponent(/datum/component/soulcatcher_user)
 	soulcatcher_action.soulcatcher_user_component = WEAKREF(user_component)
+
+/// Generates a preview of the parent soulcatcher soul based off their prefs that is assigned to `soul_preview`.soul
+/mob/living/soulcatcher_soul/proc/generate_soul_preview()
+	var/datum/preferences/soul_prefs = client?.prefs
+	if(!istype(soul_prefs))
+		return FALSE // Not much of a point doing this if it doesn't reflect the apperance
+
+	soul_preview = new(null, soul_prefs)
+	soul_preview.generate_view("soul_preview_[REF(soul_preview)]")
+	soul_preview.update_body()
+	return TRUE
 
 /// Toggles whether or not the soul inside the soulcatcher can see the outside world. Returns the state of the `outside_sight` variable.
 /mob/living/soulcatcher_soul/proc/toggle_sight()

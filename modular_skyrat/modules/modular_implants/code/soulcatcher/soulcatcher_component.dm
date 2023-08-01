@@ -201,6 +201,7 @@ GLOBAL_LIST_EMPTY(soulcatchers)
 	mind_to_add.transfer_to(new_soul, TRUE)
 	current_souls += new_soul
 	new_soul.current_room = WEAKREF(src)
+	new_soul.generate_soul_preview()
 
 	var/datum/preferences/preferences = new_soul.client?.prefs
 	if(preferences)
