@@ -40,21 +40,44 @@
 	if(!ispath(pref_to_check))
 		return FALSE
 
-	var/no_viewer_with_false_prefs = TRUE
+	var/false_pref_not_found = TRUE
 	for(var/mob/living/viewer in dview())
 		if(!viewer?.client) // It doens't really matter if these people see it.
 			continue
 
 		if(!viewer.client.prefs) // Better safe than sorry
-			no_viewer_with_false_prefs = FALSE
+			false_pref_not_found = FALSE
 			continue
 
 		if(viewer.client.prefs.read_preference(pref_to_check))
 			continue
 
-		no_viewer_with_false_prefs = FALSE
-
+		false_pref_not_found = FALSE
 		viewer.log_message("[src] used a mechanic that checked for those without [pref_to_check] in view, [viewer] had the pref disabled.", LOG_GAME)
 		log_message("[src] used a mechanic that checked for those without [pref_to_check] in view, [viewer] had the pref disabled.", LOG_GAME)
 
-	return no_viewer_with_false_prefs
+	return false_pref_not_found
+
+/// Functions like check_prefs_in_view but looks to see if the person has a single pref enabled from within a list.
+/mob/living/proc/check_prefs_list_in_view(var/list/prefs_to_check)
+	for(var/datum/preference/toggle/pref_to_check in prefs_to_check)
+		if(!ispath(pref_to_check))
+			return FALSE
+
+	var/false_pref_not_found = TRUE
+	for(var/mob/living/viewer in dview())
+		var/current_user_has_no_false_prefs = TRUE
+		if(!viewer?.client) // It doens't really matter if these people see it.
+			continue
+
+		for(var/datum/preference/toggle/pref_to_check in prefs_to_check)
+			if(viewer?.client?.prefs?.read_preference(pref_to_check))
+				current_user_has_no_false_prefs = TRUE //We only need to see that the user has one pref enabled.
+
+		if(!current_user_has_no_false_prefs)
+			viewer.log_message("[src] used a mechanic that checked for those without prefs in view, [viewer] had none of the required prefs enabled.", LOG_GAME)
+			log_message("[src] used a mechanic that checked for those without prefs in view, [viewer] had none of the required prefs enabled.", LOG_GAME)
+			false_pref_not_found = FALSE
+
+	return false_pref_not_found
+

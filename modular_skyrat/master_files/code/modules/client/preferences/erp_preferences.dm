@@ -92,6 +92,35 @@
 /datum/preference/toggle/erp/vore_pred
 	savefile_key = "vore_pred_pref"
 
+/datum/preference/toggle/erp/vore_pred/apply_to_human(mob/living/carbon/human/target, value, datum/preferences/preferences)
+	if(!istype(target))
+		return FALSE
+
+	var/obj/item/carrier_holder/vore/vore_holder = locate(/obj/item/carrier_holder/vore) in target.contents
+	if(istype(vore_holder))
+		qdel(vore_holder)
+
+	if(!value)
+		return TRUE
+
+	vore_holder = new (target)
+	return TRUE
+
+/datum/preference/toggle/erp/vore_pred/apply_to_client_updated(client/client, value)
+	var/mob/living/carbon/human/player_mob = client.mob
+	if(!istype(player_mob))
+		return FALSE
+
+	var/obj/item/carrier_holder/vore/vore_holder = locate(/obj/item/carrier_holder/vore) in player_mob.contents
+	if(istype(vore_holder))
+		qdel(vore_holder)
+
+	if(!value)
+		return TRUE
+
+	vore_holder = new (player_mob)
+	return TRUE
+
 /datum/preference/toggle/erp/vore_prey
 	savefile_key = "vore_prey_pref"
 

@@ -17,7 +17,7 @@
 	/// a list containing saved soulcatcher rooms
 	var/list/saved_carrier_rooms = list()
 	/// The item we are using to store the souls
-	var/obj/item/carrier_holder/holder
+	var/obj/item/carrier_holder/soulcatcher/holder
 
 /datum/nifsoft/soulcatcher/New()
 	. = ..()
@@ -26,8 +26,10 @@
 	soulcatcher_action.parent_nifsoft = WEAKREF(src)
 
 	holder = new(linked_mob)
-	var/datum/component/carrier/soulcatcher/new_soulcatcher = holder.AddComponent(/datum/component/carrier/soulcatcher/nifsoft)
 	holder.name = "[linked_mob.name]'s soulcatcher"
+	var/datum/component/carrier/soulcatcher/nifsoft/new_soulcatcher = holder.GetComponent(/datum/component/carrier/soulcatcher/nifsoft)
+	if(!istype(new_soulcatcher))
+		return FALSE
 
 	for(var/room in saved_carrier_rooms)
 		new_soulcatcher.create_room(room, saved_carrier_rooms[room])
@@ -130,8 +132,6 @@
 
 	soulcatcher_nifsoft.activate()
 
-/// This is the object we use if we give a mob soulcatcher. Having the souls directly parented could cause issues.
-/obj/item/carrier_holder
+/obj/item/carrier_holder/soulcatcher
 	name = "Soul Holder"
-	desc = "You probably shouldn't be seeing this..."
-
+	carrier_component_to_create = /datum/component/carrier/soulcatcher/nifsoft

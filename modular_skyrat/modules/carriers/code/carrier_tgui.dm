@@ -21,6 +21,7 @@
 	data["communicate_as_parent"] = communicate_as_parent
 	data["current_mob_count"] = length(get_current_mobs())
 	data["max_mobs"] = max_mobs
+	data["vore_functions"] = vore_functions
 
 	var/carrier_targeted = FALSE
 	var/datum/component/carrier_communicator/communicator = user.GetComponent(/datum/component/carrier_communicator)
@@ -65,9 +66,12 @@
 				"ooc_notes" = soul_component.ooc_notes,
 				"able_to_speak_as_container" = soul_component.able_to_speak_as_container,
 				"able_to_emote_as_container" = soul_component.able_to_emote_as_container,
-				"scan_needed" = soul_to_check?.body_scan_needed,
+				"scan_needed" = FALSE,
 				"is_soul" = istype(soul_to_check),
 			)
+			if(soul_list["is_soul"])
+				soul_list["scan_needed"] = soul_to_check.body_scan_needed
+
 			room_data["souls"] += list(soul_list)
 
 		data["current_rooms"] += list(room_data)
@@ -136,6 +140,32 @@
 
 			target_room.room_description = new_room_desc
 			return TRUE
+
+		if("change_enter_text")
+			var/new_room_text = tgui_input_text(usr,"What do you want to see users to see when they enter the room?", name, target_room.room_enter_text, multiline = TRUE)
+			target_room.room_enter_text = new_room_text
+
+			return TRUE
+
+		if("change_exit_text")
+			var/new_room_text = tgui_input_text(usr,"What do you want to see users to see when they enter the room?", name, target_room.room_exit_text, multiline = TRUE)
+			target_room.room_exit_text = new_room_text
+
+			return TRUE
+
+		// add in carrier effects
+		/*
+
+		if("disable_carrier_effect")
+			var/list/carrier_effect_types = get_current_carrier_effects()
+			if(!length(carrier_effect_types))
+				return FALSE
+
+			var/list/carrier_effects_to_toggle = tgui_input_checkboxes(usr, "What carrier effects do you wish to enable?", name, get_carrier_effects)
+			for(var/datum/carrier_effect/effect in carrier_effects_to_toggle)
+
+		*/
+
 
 		if("toggle_joinable_room")
 			if(!istype(soulcatcher_carrier))

@@ -28,6 +28,8 @@ GLOBAL_LIST_EMPTY(soulcatchers)
 	var/single_owner = FALSE
 	/// Is there a limit on the number of rooms that you can make?
 	var/room_limit = FALSE
+	/// Is this carrier used for Vore?
+	var/vore_functions = FALSE
 
 	/// What is the max number of people we can keep in this carrier? If this is set to `FALSE` we don't have a limit
 	var/max_mobs = FALSE
@@ -251,6 +253,7 @@ GLOBAL_LIST_EMPTY(soulcatchers)
 	var/datum/component/carrier_communicator/communicator_component = update_targeted_carrier(mob_to_add)
 	communicator_component.carried_mob = TRUE
 	target_room.set_overlay_for_mob(mob_to_add)
+	target_room.add_mob(mob_to_add)
 
 	return carrier_component
 
@@ -317,7 +320,12 @@ GLOBAL_LIST_EMPTY(soulcatchers)
 		parent_atom.log_message(message_to_log, LOG_GAME)
 		mob_to_add.log_message(message_to_log, LOG_GAME)
 
+	// There are multiple ways that we can handle the suffocation that comes from being in a carrier.
+	// Right now, I am opting to give them no_breath instead of trying to fiddle around with actual breathing mechanics.
+	// Having actual atmos mechanics is going to be cumbersome and introduce extra performance costs, which we want to avoid.
+	ADD_TRAIT(mob_to_add, TRAIT_NOBREATH, TRAIT_CARRIER)
 	ADD_TRAIT(mob_to_add, TRAIT_FLOORED, TRAIT_CARRIER)
+
 	return TRUE
 
 /// Removes a mob from a carrier room, leaving it as a ghost. Returns `FALSE` if the `mob_to_remove` cannot be found, otherwise returns `TRUE` after a successful deletion.
@@ -352,6 +360,7 @@ GLOBAL_LIST_EMPTY(soulcatchers)
 	soul_to_remove.clear_fullscreen("carrier", FALSE)
 
 	REMOVE_TRAIT(mob_to_remove, TRAIT_FLOORED, TRAIT_CARRIER)
+	REMOVE_TRAIT(mob_to_remove, TRAIT_NOBREATH, TRAIT_CARRIER)
 	return TRUE
 
 /**
@@ -452,3 +461,15 @@ GLOBAL_LIST_EMPTY(soulcatchers)
 		remove_mob(occupant)
 
 	return ..()
+
+/// Finds and returns the owner of the master carrier
+/datum/carrier_room/proc/get_owner()
+	var/datum/component/carrier/parent_carrier = master_carrier.resolve()
+	if(!istype(parent_carrier))
+		return FALSE
+
+	var/mob/living/owner = parent_carrier.get_current_holder()
+	if(!istype(owner))
+		return FALSE
+
+	return owner

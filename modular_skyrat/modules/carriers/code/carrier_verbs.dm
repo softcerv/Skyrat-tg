@@ -1,6 +1,8 @@
 /datum/component/carrier_communicator
-	/// What carrier room is the parent mob currently trying to communicate with?
+	/// What carrier component is the parent mob currently trying to communicate with?
 	var/datum/weakref/target_carrier
+	/// What carrier components are we currently linked with?
+	var/list/carrier_components = list()
 	/// Is the mob trying to communicate with the carrier they are inside?
 	var/carried_mob = FALSE
 
